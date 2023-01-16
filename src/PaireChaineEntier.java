@@ -33,10 +33,10 @@ public class PaireChaineEntier {
 
     public void afficher() {
         System.out.println("---------------------");
-        System.out.println("texte :" + chaine);
-        System.out.println("poids :" + entier);
+        System.out.println("texte: " + chaine);
+        System.out.println("poids: " + entier);
         System.out.println();
-        System.out.println("---------------------");
+
     }
 }
 

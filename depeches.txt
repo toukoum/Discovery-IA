@@ -1,7 +1,7 @@
 .N 001
 .D 140208
 .C ENVIRONNEMENT-SCIENCES
-.T Des cellules souches ont été produites à partir de cellules adultes 
+.T Des cellules souches ont été produites à partir de cellules adultes
 sans provoquer de tumeur.
 
 .N 002
@@ -65,7 +65,7 @@ Les médicaments sans ordonnances désormais vendus en libre accès.
 .C ENVIRONNEMENT-SCIENCES
 .T Des progrès à venir dans les greffes d'organes humains
 En dépit des spectaculaires résultats des récentes
-transplantations partielles de fractions de membres et de visage, rien 
+transplantations partielles de fractions de membres et de visage, rien
 ne permet d'espérer, à court terme, de substantielles
 avancées en matière de greffes d'organes. 
 
