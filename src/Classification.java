@@ -72,6 +72,12 @@ public class Classification {
             depeches.get(i).afficher();
         }
 
+
+
+        System.out.println("Chargement des lexiques");
+        ArrayList<PaireChaineEntier> lexique = new PaireChaineEntier<>();
+
+
     }
 
 
