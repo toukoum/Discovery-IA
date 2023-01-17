@@ -91,7 +91,11 @@ public class Classification {
             System.out.println(resultat);
             System.out.println(depeches.get(i).getCategorie());
             if (resultat.compareTo(depeches.get(i).getCategorie()) == 0) {
+
+                // Vérifie si la variable "resultat" est égale à la catégorie de la "depeche" actuelle dans la liste "depeches" à l'index "i"
+
                 if (depeches.get(i).getCategorie().compareTo(catégorie.get(0)) == 0) {
+                    // Incrémente le compteur c_politique si categorie de depeche == premier element de la liste categorie
                     c_politique += 1;
                 } else if (depeches.get(i).getCategorie().compareTo(catégorie.get(1)) == 0) {
                     c_economie += 1;
@@ -110,22 +114,26 @@ public class Classification {
         System.out.println(c_economie);
         ArrayList<Integer> Resultat_pourcentage = new ArrayList<>(Arrays.asList(c_politique, c_economie, c_sports, c_environement, c_culture));
 
-        int l = 0;
-        while (l < catégorie.size()) {
-            try {
+        int l = 0; // initialise compteur l
+        while (l < catégorie.size()) { // parcours tous elements de categorie
+            try { //
                 file.write(catégorie.get(l) + ":" + " ".repeat(30 - catégorie.get(l).length()));
+                //  écrit la catégorie actuelle suivie d'un certain nombre d'espaces dans le fichier
                 file.write(Integer.toString(Resultat_pourcentage.get(l)) + "%");
+                // écrit le pourcentage de résultat correspondant à la catégorie actuelle dans le fichier
                 file.write("\n");
+                // ajoute un saut de ligne pour séparer les différentes catégories dans le fichier
             } catch (IOException e) {
+                // gère les erreurs d'entrée/sortie
                 throw new RuntimeException(e);
             }
-            l++;
+            l++; // continue le parcours
         }
 
-        try {
+        try { // ferme le fichier une fois que toutes les données ont été écrites
             file.close();
         } catch (
-                IOException e) {
+                IOException e) { // gère les erreurs d'entrée/sortie
             throw new RuntimeException(e);
         }
         System.out.println("votre saisie a été écrite avec succès dans fichier-sortie.txt");
@@ -163,19 +171,19 @@ public class Classification {
         }
 
 
-        Categorie lexique_sports = new Categorie("sports"); // Création d'un objet 'Catégorie' de nom 'culture'
-        Categorie lexique_politique = new Categorie("polititque"); // Création d'un objet 'Catégorie' de nom 'culture'
-        Categorie lexique_economie = new Categorie("économie"); // Création d'un objet 'Catégorie' de nom 'culture'
-        Categorie lexique_environement_science = new Categorie("science"); // Création d'un objet 'Catégorie' de nom 'culture'
+        Categorie lexique_sports = new Categorie("sports"); // Création d'un objet 'Catégorie' de nom 'sports'
+        Categorie lexique_politique = new Categorie("polititque"); // Création d'un objet 'Catégorie' de nom 'politique'
+        Categorie lexique_economie = new Categorie("économie"); // Création d'un objet 'Catégorie' de nom 'economie'
+        Categorie lexique_environement_science = new Categorie("science"); // Création d'un objet 'Catégorie' de nom 'environement_science'
         Categorie lexique_culture = new Categorie("culture"); // Création d'un objet 'Catégorie' de nom 'culture'
 //
 //
         ArrayList<Categorie> cat_all = new ArrayList<>(Arrays.asList(lexique_politique, lexique_economie, lexique_sports, lexique_environement_science, lexique_culture));
 //
-        lexique_politique.initLexique("./lexique_politique");// Fonction initLexique appelé pour injecter les lexiques_culture dans culture
-        lexique_economie.initLexique("./lexique_economie");// Fonction initLexique appelé pour injecter les lexiques_culture dans culture
-        lexique_sports.initLexique("./lexique_sports");// Fonction initLexique appelé pour injecter les lexiques_culture dans culture
-        lexique_environement_science.initLexique("lexique_environnement-sciences");// Fonction initLexique appelé pour injecter les lexiques_culture dans culture
+        lexique_politique.initLexique("./lexique_politique");// Fonction initLexique appelé pour injecter les lexiques_politique dans politique
+        lexique_economie.initLexique("./lexique_economie");// Fonction initLexique appelé pour injecter les lexiques_economie dans economie
+        lexique_sports.initLexique("./lexique_sports");// Fonction initLexique appelé pour injecter les lexiques_sports dans sports
+        lexique_environement_science.initLexique("lexique_environnement-sciences");// Fonction initLexique appelé pour injecter les lexiques_environement_science dans environement_science
         lexique_culture.initLexique("./lexique_culture");// Fonction initLexique appelé pour injecter les lexiques_culture dans culture
 
 //        int p = 0;
@@ -217,4 +225,3 @@ public class Classification {
 
 
 }
-
