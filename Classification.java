@@ -161,10 +161,10 @@ public class Classification {
             int entPaire = UtilitairePaireChaineEntier.entierPourChaine(vlexique_environement_science, chaine_nom);
             System.out.println("result Environement-Science :" + "\n" + entPaire);
         }
-        int entPaire = UtilitairePaireChaineEntier.entierPourChaine(vlexique_environement_science, chaine_nom); // Variable
+        /*int entPaire = UtilitairePaireChaineEntier.entierPourChaine(vlexique_environement_science, chaine_nom); // Variable
         if (entPaire == 0){// si poids = 0
             System.out.println("Vous n'avez acun mot/lexique dans cette categorie");
-        }
+        }*/
 
         //afficahge de la fonction qui retourne l'entier associé à la chaine de caractères dans listePaires
         //int entPaire = UtilitairePaireChaineEntier.entierPourChaine(vlexique_culture, chaine_nom);
