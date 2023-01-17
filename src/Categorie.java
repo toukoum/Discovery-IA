@@ -40,7 +40,14 @@ public class Categorie {
                 String text = ligne.substring(0, sep);
 
                 String poids_str = ligne.substring(sep + 1);
-                int poids_int = Integer.parseInt(poids_str); // besoin d'une initalisation int pour la conversion
+                int poids_int;
+                if (poids_str != " ") {
+                    poids_int = Integer.parseInt(poids_str); // besoin d'une initalisation int pour la conversion
+                }
+                else {
+                    poids_int = 0;
+                }
+
 
                 PaireChaineEntier unlexique = new PaireChaineEntier(text, poids_int); // création objet type <PaireChaineEntier> avec comme valeur (text<String> , Poids<Integer>)
                 lexique.add(unlexique);// L'ajoute au vecteur lexique
