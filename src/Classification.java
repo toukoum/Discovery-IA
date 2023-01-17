@@ -189,7 +189,7 @@ public class Classification {
 //        int p = 0;
 //        while (p < lexique_economie.getLexique().size()) {
 //            System.out.println(lexique_economie.getLexique().get(p).getChaine() + " " + lexique_economie.getLexique().get(p).getEntier());
-//            p++;
+//           p++;
 //        }
 //
 //
@@ -213,7 +213,7 @@ public class Classification {
 
         classementDepeches(depeches, cat_all, "fichier_sortie.txt");
 
-        // afficahge de la fonction qui retourne l'entier associé à la chaine de caractères dans listePaires
+//        afficahge de la fonction qui retourne l'entier associé à la chaine de caractères dans listePaires
 //        int entPaire = UtilitairePaireChaineEntier.entierPourChaine(vlexique_culture, "art");
 //        System.out.println(entPaire);
 
