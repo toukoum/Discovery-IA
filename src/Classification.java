@@ -139,7 +139,7 @@ public class Classification {
                 if (depeche.getCategorie().equals(categorie) && depeche.getMots().contains(paire.getChaine())) {
                     paire.setEntier(paire.getEntier() + 1);
                 } else if (!depeche.getCategorie().equals(categorie) && depeche.getMots().contains(paire.getChaine())) {
-                    paire.setEntier(paire.getEntier() - 1);
+                    paire.setEntier(paire.getEntier() - 2);
                 }
             }
         }
@@ -147,11 +147,11 @@ public class Classification {
 
 
     public static int poidsPourScore(int score) {
-        int poids = 0;
+        int poids;
 
-        if (score > 0) {
+        if (score > 2) {
             poids = 3;
-        } else if (score == 0) {
+        } else if ((score >= 0) && (score  <=2)) {
             poids = 2;
         } else {
             poids = 1;
@@ -175,11 +175,12 @@ public class Classification {
 
 
     public static void main(String[] args) {
-
+        long startTime = System.currentTimeMillis();
 
         //Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
-        ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
+        ArrayList<Depeche> depeches = lectureDepeches("depeches.txt");
+        ArrayList<Depeche> depeches_test = lectureDepeches("./test.txt");
 
 
         Categorie lexique_sports = new Categorie("SPORTS"); // Création d'un objet 'Catégorie' de nom 'sports'
@@ -270,7 +271,15 @@ public class Classification {
         lexique_culture.initLexique("lexique_culture_auto");// Fonction initLexique appelé pour injecter les lexiques_culture dans culture
 
 
-        classementDepeches(depeches, cat_all, "fichier_sortie.txt");
+        classementDepeches(depeches_test, cat_all, "fichier_sortie.txt");
+
+
+
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("votre saisie a été réalisée en : " + (endTime-startTime) + "ms");
+
+        // temps traitement avant amélioration : 2234ms
 
     }
 
