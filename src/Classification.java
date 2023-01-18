@@ -145,20 +145,28 @@ public class Classification {
         ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
 
         int i = 0;
+        while (i < depeches.size()){
+            depeches.get(i).getMots(); // sachant que this.mots = decoupeEnMots(contenu);
+            i++; // nous permet d'utiliser la fonction dans depeche
 
-        while (i < depeches.size()) {
             if (depeches.get(i).getCategorie().compareTo(categorie) == 0) {
 
                 String contenu = depeches.get(i).getContenu();
                 String chaine = contenu.toLowerCase();
-                chaine = chaine.replace('\n', ' ');
+                String[] tabchaine = chaine.split(" ");
+        /*while (i < depeches.size()) {
+            if (depeches.get(i).getCategorie().compareTo(categorie) == 0) {
+
+                String contenu = depeches.get(i).getContenu();
+                String chaine = contenu.toLowerCase();
+                chaine = chaine.replace('\n', ' ');// remplace les caractères spéciaux par des espaces
                 chaine = chaine.replace('.', ' ');
                 chaine = chaine.replace(',', ' ');
                 chaine = chaine.replace('\'', ' ');
                 chaine = chaine.replace('\"', ' ');
                 chaine = chaine.replace('(', ' ');
                 chaine = chaine.replace(')', ' ');
-                String[] tabchaine = chaine.split(" ");
+                String[] tabchaine = chaine.split(" ");*/
 
                 // parcours de tous les éléments de tabchaine
                 for (int j = 0; j < tabchaine.length; j++) {
@@ -175,7 +183,7 @@ public class Classification {
                             boolean ajout = false;
                             while (k < resultat.size()) {
                                 if (!tabchaine[j].equals(resultat.get(k).getChaine())) {
-
+ // Si le mot de tabchaine n'est pas déjà présent dans resultat
                                     ajout = true;
                                 }
                                 k++;
@@ -368,7 +376,7 @@ public class Classification {
 
 
         generationLexique(depeches, "CULTURE", "lexique_culture_auto");
-
+        // appeler 5 fois pour les categories
 
     }
 
