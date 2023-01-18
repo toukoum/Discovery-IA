@@ -43,16 +43,13 @@ public class UtilitairePaireChaineEntier {
     }
 
 
-    public static float moyenne(ArrayList<PaireChaineEntier> listePaires) {
-
-        int i = 0;
+    public static float moyenne(ArrayList<Integer> liste_compteur) {
         int somme = 0;
-
-        while (i < listePaires.size()) {
-            somme += listePaires.get(i).getEntier();
+        for (int i : liste_compteur) {
+            somme += i;
         }
-
-        return (somme / listePaires.size());
+        return (float) somme / liste_compteur.size();
     }
+
 
 }

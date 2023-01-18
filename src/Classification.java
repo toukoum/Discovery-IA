@@ -72,28 +72,35 @@ public class Classification {
             if (resultat.compareTo(depeche.getCategorie()) == 0) {
                 if (depeche.getCategorie().compareTo("POLITIQUE") == 0) {
                     c_politique += 1;
-                } else if (resultat.compareTo("ECONOMIE") == 0) {
+                } else if (depeche.getCategorie().compareTo("ECONOMIE") == 0) {
                     c_economie += 1;
-                } else if (resultat.compareTo("SPORTS") == 0) {
+                } else if (depeche.getCategorie().compareTo("SPORTS") == 0) {
                     c_sports += 1;
-                } else if (resultat.compareTo("ENVIRONNEMENT-SCIENCES") == 0) {
+                } else if (depeche.getCategorie().compareTo("ENVIRONNEMENT-SCIENCES") == 0) {
                     c_environement += 1;
-                } else if (resultat.compareTo("CULTURE") == 0) {
+                } else if (depeche.getCategorie().compareTo("CULTURE") == 0) {
                     c_culture += 1;
                 }
             }
         }
-        System.out.println(c_culture);
+
+        ArrayList<Integer> liste_compteur = new ArrayList<>(Arrays.asList(c_politique, c_economie, c_sports, c_environement, c_culture));
+        for (Integer compteur : liste_compteur) {
+            System.out.println(compteur);
+        }
         try {
             file.write("POLITIQUE:" + c_politique + "%\n");
             file.write("ECONOMIE:" + c_economie + "%\n");
             file.write("SPORTS:" + c_sports + "%\n");
             file.write("ENVIRONNEMENT-SCIENCES:" + c_environement + "%\n");
             file.write("CULTURE:" + c_culture + "%\n");
+            file.write("MOYENNE:" + UtilitairePaireChaineEntier.moyenne(liste_compteur) + "%\n");
             file.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 
 
@@ -174,25 +181,21 @@ public class Classification {
         System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
 
-//        for (int i = 0; i < depeches.size(); i++) {
-//            depeches.get(i).afficher();
-//        }
-
 
         Categorie lexique_sports = new Categorie("SPORTS"); // Création d'un objet 'Catégorie' de nom 'sports'
         Categorie lexique_politique = new Categorie("POLITIQUE"); // Création d'un objet 'Catégorie' de nom 'politique'
         Categorie lexique_economie = new Categorie("ECONOMIE"); // Création d'un objet 'Catégorie' de nom 'economie'
         Categorie lexique_environement_science = new Categorie("ENVIRONNEMENT-SCIENCES"); // Création d'un objet 'Catégorie' de nom 'environement_science'
         Categorie lexique_culture = new Categorie("CULTURE"); // Création d'un objet 'Catégorie' de nom 'culture'
-//
-//
+
+
         ArrayList<Categorie> cat_all = new ArrayList<>(Arrays.asList(lexique_politique, lexique_economie, lexique_sports, lexique_environement_science, lexique_culture));
 //
-        lexique_politique.initLexique("./lexique_politique");// Fonction initLexique appelé pour injecter les lexiques_politique dans politique
-        lexique_economie.initLexique("./lexique_economie");// Fonction initLexique appelé pour injecter les lexiques_economie dans economie
-        lexique_sports.initLexique("./lexique_sports");// Fonction initLexique appelé pour injecter les lexiques_sports dans sports
-        lexique_environement_science.initLexique("lexique_environnement-sciences");// Fonction initLexique appelé pour injecter les lexiques_environement_science dans environement_science
-        lexique_culture.initLexique("./lexique_culture");// Fonction initLexique appelé pour injecter les lexiques_culture dans culture
+//        lexique_politique.initLexique("./lexique_politique");// Fonction initLexique appelé pour injecter les lexiques_politique dans politique
+//        lexique_economie.initLexique("./lexique_economie");// Fonction initLexique appelé pour injecter les lexiques_economie dans economie
+//        lexique_sports.initLexique("./lexique_sports");// Fonction initLexique appelé pour injecter les lexiques_sports dans sports
+//        lexique_environement_science.initLexique("lexique_environnement-sciences");// Fonction initLexique appelé pour injecter les lexiques_environement_science dans environement_science
+//        lexique_culture.initLexique("./lexique_culture");// Fonction initLexique appelé pour injecter les lexiques_culture dans culture
 
 //        int p = 0;
 //        while (p < lexique_economie.getLexique().size()) {
@@ -221,7 +224,7 @@ public class Classification {
 //        System.out.println(UtilitairePaireChaineEntier.chaineMax(Score));
 
 
-        classementDepeches(depeches, cat_all, "fichier_sortie.txt");
+//        classementDepeches(depeches, cat_all, "fichier_sortie.txt");
 
 //        afficahge de la fonction qui retourne l'entier associé à la chaine de caractères dans listePaires
 //        int entPaire = UtilitairePaireChaineEntier.entierPourChaine(vlexique_culture, "art");
@@ -252,11 +255,22 @@ public class Classification {
 //        System.out.println(resultat.get(max).getChaine() + ": " + resultat.get(max).getEntier());
 
 
-//        generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "lexique_science_auto");
-//        generationLexique(depeches, "POLITIQUE", "lexique_politique_auto");
-//        generationLexique(depeches, "ECONOMIE", "lexique_economie_auto");
-//        generationLexique(depeches, "SPORTS", "lexique_sport_auto");
-//        generationLexique(depeches, "CULTURE", "lexique_culture_auto");
+        generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "lexique_environnement-sciences_auto");
+        generationLexique(depeches, "POLITIQUE", "lexique_politique_auto");
+        generationLexique(depeches, "ECONOMIE", "lexique_economie_auto");
+        generationLexique(depeches, "SPORTS", "lexique_sports_auto");
+        generationLexique(depeches, "CULTURE", "lexique_culture_auto");
+
+
+
+        lexique_politique.initLexique("lexique_politique_auto");// Fonction initLexique appelé pour injecter les lexiques_politique dans politique
+        lexique_economie.initLexique("lexique_economie_auto");// Fonction initLexique appelé pour injecter les lexiques_economie dans economie
+        lexique_sports.initLexique("lexique_sports_auto");// Fonction initLexique appelé pour injecter les lexiques_sports dans sports
+        lexique_environement_science.initLexique("lexique_environnement-sciences_auto");// Fonction initLexique appelé pour injecter les lexiques_environement_science dans environement_science
+        lexique_culture.initLexique("lexique_culture_auto");// Fonction initLexique appelé pour injecter les lexiques_culture dans culture
+
+
+        classementDepeches(depeches, cat_all, "fichier_sortie.txt");
 
     }
 
