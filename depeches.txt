@@ -1,7 +1,7 @@
 .N 001
 .D 140208
 .C ENVIRONNEMENT-SCIENCES
-.T Des Des cellules souches ont été produites à partir de cellules adultes
+.T % 10 Des cellules souches ont été produites à partir de cellules adultes
 sans provoquer de tumeur.
 
 .N 002
@@ -1558,7 +1558,7 @@ Les oeuvres du jeune artiste sont présentées à Paris et à Reims.
 .N 201
 .D 140208
 .C ECONOMIE
-.T Société générale : le collègue courtier de Jérôme Kerviel porte plainte 
+.T Société générale : le collègue courtier de Jérôme Kerviel porte plainte
 pour "faux et usage de faux"
 L'avocat de Moussa Bakir, le courtier placé sous statut de témoin
 assisté dans l'affaire Kerviel, a annoncé avoir

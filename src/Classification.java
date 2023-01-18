@@ -44,7 +44,7 @@ public class Classification {
 
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> cat_all, String nomFichier) {
 
-        FileWriter file = null;
+        FileWriter file;
         try {
             file = new FileWriter(nomFichier);
         } catch (IOException e) {
@@ -106,10 +106,21 @@ public class Classification {
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
         ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
+
         // parcours de toutes les dépêches
         for (Depeche depeche : depeches) {
+
             if (depeche.getCategorie().equals(categorie)) {
                 ArrayList<String> contenu = depeche.getMots();
+
+                // delete de tout les mots non intéréssant de chaque depêche  "[a-zA-Z]{2,}+\\.?"
+                for (int mot = 0; mot < contenu.size(); mot ++) {
+                    if ((contenu.get(mot).matches("\\W{0,}")) || (contenu.get(mot).matches("\\d{0,}")) || (contenu.get(mot).matches("[a-zA-Z]"))) {
+                        contenu.remove(contenu.get(mot));
+                        mot-=1;
+                    }
+                }
+
                 // parcours de tous les mots de chaque dépêche
                 for (String mot : contenu) {
                     boolean motExiste = false;
@@ -318,6 +329,8 @@ public class Classification {
 
 
         // temps traitement avant amélioration : 2234ms
+        // temps traitement après ajout de tri fusion : 1645ms
+
 
     }
 

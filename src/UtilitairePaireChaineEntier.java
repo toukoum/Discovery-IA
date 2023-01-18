@@ -30,25 +30,22 @@ public class UtilitairePaireChaineEntier {
         return 0;
     }
 
-    public static int entierPourChaine(ArrayList<PaireChaineEntier> listePaires, String chaine) {
-        int gauche = 0;
-        int droite = listePaires.size() - 1;
-
-        while (gauche <= droite) {
-            int milieu = (gauche + droite) / 2;
-            int compare = chaine.compareTo(listePaires.get(milieu).getChaine());
-
-            if (compare == 0) {
-                return listePaires.get(milieu).getEntier();
-            } else if (compare < 0) {
-                droite = milieu - 1;
-            } else {
-                gauche = milieu + 1;
-            }
+    public static int entierPourChaine(ArrayList<PaireChaineEntier> listePaires, String chaine, int gauche, int droite) {
+        if (gauche > droite) {
+            return 0;
         }
+        int milieu = (gauche + droite) / 2;
+        int compare = chaine.compareTo(listePaires.get(milieu).getChaine());
 
-        return 0;
+        if (compare == 0) {
+            return listePaires.get(milieu).getEntier();
+        } else if (compare < 0) {
+            return entierPourChaine(listePaires, chaine, gauche, milieu - 1);
+        } else {
+            return entierPourChaine(listePaires, chaine, milieu + 1, droite);
+        }
     }
+
 
 
 

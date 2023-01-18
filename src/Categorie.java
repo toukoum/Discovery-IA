@@ -51,7 +51,7 @@ public class Categorie {
     public int score(Depeche d) {
         int somme = 0;
         for (String mot : d.getMots()) {
-            somme += UtilitairePaireChaineEntier.entierPourChaine(lexique, mot);
+            somme += UtilitairePaireChaineEntier.entierPourChaine(lexique, mot, 0, lexique.size()-1);
         }
         return somme;
     }
