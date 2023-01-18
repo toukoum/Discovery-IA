@@ -104,12 +104,11 @@ public class Classification {
     }
 
 
-
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
         ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
         // parcours de toutes les dépêches
         for (Depeche depeche : depeches) {
-            if(depeche.getCategorie().equals(categorie)){
+            if (depeche.getCategorie().equals(categorie)) {
                 ArrayList<String> contenu = depeche.getMots();
                 // parcours de tous les mots de chaque dépêche
                 for (String mot : contenu) {
@@ -132,7 +131,6 @@ public class Classification {
     }
 
 
-
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
         for (PaireChaineEntier paire : dictionnaire) {
             for (Depeche depeche : depeches) {
@@ -145,13 +143,49 @@ public class Classification {
         }
     }
 
+    public static void triVecteurFusion(ArrayList<PaireChaineEntier> atrie) {
+        if (atrie.size() > 1) {
+            ArrayList<PaireChaineEntier> gauche = new ArrayList<PaireChaineEntier>();
+            ArrayList<PaireChaineEntier> droite = new ArrayList<PaireChaineEntier>();
+            int milieu = atrie.size() / 2;
+            for (int i = 0; i < milieu; i++) {
+                gauche.add(atrie.get(i));
+            }
+            for (int i = milieu; i < atrie.size(); i++) {
+                droite.add(atrie.get(i));
+            }
+            triVecteurFusion(gauche);
+            triVecteurFusion(droite);
+            fusion(gauche, droite, atrie);
+        }
+    }
+
+    private static void fusion(ArrayList<PaireChaineEntier> gauche, ArrayList<PaireChaineEntier> droite, ArrayList<PaireChaineEntier> atrie) {
+        int i = 0;
+        int j = 0;
+        int k = 0;
+        while (i < gauche.size() && j < droite.size()) {
+            if (gauche.get(i).getChaine().compareTo(droite.get(j).getChaine()) < 0) {
+                atrie.set(k++, gauche.get(i++));
+            } else {
+                atrie.set(k++, droite.get(j++));
+            }
+        }
+        while (i < gauche.size()) {
+            atrie.set(k++, gauche.get(i++));
+        }
+        while (j < droite.size()) {
+            atrie.set(k++, droite.get(j++));
+        }
+    }
+
 
     public static int poidsPourScore(int score) {
         int poids;
 
         if (score > 2) {
             poids = 3;
-        } else if ((score >= 0) && (score  <=2)) {
+        } else if ((score >= 0) && (score <= 2)) {
             poids = 2;
         } else {
             poids = 1;
@@ -163,6 +197,7 @@ public class Classification {
     public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {
         ArrayList<PaireChaineEntier> newDico = initDico(depeches, categorie);
         calculScores(depeches, categorie, newDico);
+        triVecteurFusion(newDico);
 
         try (FileWriter file = new FileWriter(nomFichier)) {
             for (PaireChaineEntier paire : newDico) {
@@ -171,6 +206,8 @@ public class Classification {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
     }
 
 
@@ -263,7 +300,6 @@ public class Classification {
         generationLexique(depeches, "CULTURE", "lexique_culture_auto");
 
 
-
         lexique_politique.initLexique("lexique_politique_auto");// Fonction initLexique appelé pour injecter les lexiques_politique dans politique
         lexique_economie.initLexique("lexique_economie_auto");// Fonction initLexique appelé pour injecter les lexiques_economie dans economie
         lexique_sports.initLexique("lexique_sports_auto");// Fonction initLexique appelé pour injecter les lexiques_sports dans sports
@@ -271,13 +307,15 @@ public class Classification {
         lexique_culture.initLexique("lexique_culture_auto");// Fonction initLexique appelé pour injecter les lexiques_culture dans culture
 
 
+
         classementDepeches(depeches_test, cat_all, "fichier_sortie.txt");
 
 
-
-
         long endTime = System.currentTimeMillis();
-        System.out.println("votre saisie a été réalisée en : " + (endTime-startTime) + "ms");
+        System.out.println("votre saisie a été réalisée en : " + (endTime - startTime) + "ms");
+
+
+
 
         // temps traitement avant amélioration : 2234ms
 
