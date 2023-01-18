@@ -28,6 +28,8 @@ public class Depeche {
         chaine = chaine.replace('(', ' ');
         chaine = chaine.replace(')', ' ');
         chaine = chaine.replace(':', ' ');
+        chaine = chaine.replace('?', ' ');
+        chaine = chaine.replace('!', ' ');
         chaine = chaine.replace('1', ' ');
         chaine = chaine.replace('2', ' ');
         chaine = chaine.replace('3', ' ');
