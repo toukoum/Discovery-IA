@@ -27,37 +27,21 @@ public class Categorie {
 
     // initialisation du lexique de la catégorie à partir du contenu d'un fichier texte
     public void initLexique(String nomFichier) {
-
         try {
-            // lecture du fichier d'entrée
             FileInputStream file = new FileInputStream(nomFichier);
             Scanner scanner = new Scanner(file);
-
             while (scanner.hasNextLine()) {
                 String ligne = scanner.nextLine();
                 int sep = ligne.indexOf(":");
-
                 String text = ligne.substring(0, sep);
-
-                String poids_str = ligne.substring(sep + 1);
-                int poids_int;
-                if (poids_str != " ") {
-                    poids_int = Integer.parseInt(poids_str); // besoin d'une initalisation int pour la conversion
-                }
-                else {
-                    poids_int = 0;
-                }
-
-
-                PaireChaineEntier unlexique = new PaireChaineEntier(text, poids_int); // création objet type <PaireChaineEntier> avec comme valeur (text<String> , Poids<Integer>)
-                lexique.add(unlexique);// L'ajoute au vecteur lexique
-
+                int poids_int = Integer.parseInt(ligne.substring(sep + 1));
+                PaireChaineEntier unlexique = new PaireChaineEntier(text, poids_int);
+                lexique.add(unlexique);
             }
             scanner.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 

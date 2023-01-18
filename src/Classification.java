@@ -72,13 +72,13 @@ public class Classification {
             if (resultat.compareTo(depeche.getCategorie()) == 0) {
                 if (depeche.getCategorie().compareTo("POLITIQUE") == 0) {
                     c_politique += 1;
-                } else if (depeche.getCategorie().compareTo("ECONOMIE") == 0) {
+                } else if (resultat.compareTo("ECONOMIE") == 0) {
                     c_economie += 1;
-                } else if (depeche.getCategorie().compareTo("SPORTS") == 0) {
+                } else if (resultat.compareTo("SPORTS") == 0) {
                     c_sports += 1;
-                } else if (depeche.getCategorie().compareTo("ENVIRONNEMENT-SCIENCES") == 0) {
+                } else if (resultat.compareTo("ENVIRONNEMENT-SCIENCES") == 0) {
                     c_environement += 1;
-                } else if (depeche.getCategorie().compareTo("CULTURE") == 0) {
+                } else if (resultat.compareTo("CULTURE") == 0) {
                     c_culture += 1;
                 }
             }
@@ -179,11 +179,11 @@ public class Classification {
 //        }
 
 
-        Categorie lexique_sports = new Categorie("sports"); // Création d'un objet 'Catégorie' de nom 'sports'
-        Categorie lexique_politique = new Categorie("polititque"); // Création d'un objet 'Catégorie' de nom 'politique'
-        Categorie lexique_economie = new Categorie("économie"); // Création d'un objet 'Catégorie' de nom 'economie'
-        Categorie lexique_environement_science = new Categorie("science"); // Création d'un objet 'Catégorie' de nom 'environement_science'
-        Categorie lexique_culture = new Categorie("culture"); // Création d'un objet 'Catégorie' de nom 'culture'
+        Categorie lexique_sports = new Categorie("SPORTS"); // Création d'un objet 'Catégorie' de nom 'sports'
+        Categorie lexique_politique = new Categorie("POLITIQUE"); // Création d'un objet 'Catégorie' de nom 'politique'
+        Categorie lexique_economie = new Categorie("ECONOMIE"); // Création d'un objet 'Catégorie' de nom 'economie'
+        Categorie lexique_environement_science = new Categorie("ENVIRONNEMENT-SCIENCES"); // Création d'un objet 'Catégorie' de nom 'environement_science'
+        Categorie lexique_culture = new Categorie("CULTURE"); // Création d'un objet 'Catégorie' de nom 'culture'
 //
 //
         ArrayList<Categorie> cat_all = new ArrayList<>(Arrays.asList(lexique_politique, lexique_economie, lexique_sports, lexique_environement_science, lexique_culture));
@@ -196,19 +196,20 @@ public class Classification {
 
 //        int p = 0;
 //        while (p < lexique_economie.getLexique().size()) {
-//            System.out.println(lexique_economie.getLexique().get(p).getChaine() + " " + lexique_economie.getLexique().get(p).getEntier());
+//            System.out.println(lexique_economie.getLexique().get(p).getChaine() + ":" + lexique_economie.getLexique().get(p).getEntier());
 //           p++;
 //        }
 //
 //
 //        ArrayList<PaireChaineEntier> Score = new ArrayList<>();
-//        ArrayList<String> catégorie = new ArrayList<>(Arrays.asList("lexique_culture", "lexique_politique", "lexique_économique", "lexique_sports", "lexique_environement_science"));
+//        ArrayList<String> catégorie = new ArrayList<>(Arrays.asList("lexique_politique", "lexique_économie", "lexique_sports", "lexique_environement_science", "lexique_culture"));
 //        for (int i = 0; i < cat_all.size(); i++) {
-//            PaireChaineEntier paire_x = new PaireChaineEntier(catégorie.get(i), cat_all.get(i).score(depeches.get(10)));
+//            PaireChaineEntier paire_x = new PaireChaineEntier(catégorie.get(i), cat_all.get(i).score(depeches.get(201)));
 //            Score.add(paire_x);
 //        }
 //
-//
+////
+////
 //        int i = 0;// initialisation invariant
 //
 //        while (i < Score.size()) { // tant que i est < au vecteur lexique
@@ -216,7 +217,8 @@ public class Classification {
 //            i++;
 //        }
 //
-//        System.out.println("Catégorie ayant le score maximum: " + catégorie.get(calculScores(0,0,0))
+//
+//        System.out.println(UtilitairePaireChaineEntier.chaineMax(Score));
 
 
         classementDepeches(depeches, cat_all, "fichier_sortie.txt");
