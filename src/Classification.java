@@ -44,7 +44,12 @@ public class Classification {
 
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> cat_all, String nomFichier) {
 
-        String resultat;
+        FileWriter file = null;
+        try {
+            file = new FileWriter(nomFichier);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         int c_politique = 0;
         int c_economie = 0;
         int c_sports = 0;
@@ -52,196 +57,87 @@ public class Classification {
         int c_culture = 0;
 
 
-        ArrayList<String> catégorie = new ArrayList<>(Arrays.asList("POLITIQUE", "ECONOMIE", "SPORTS", "ENVIRONNEMENT-SCIENCES", "CULTURE"));
-
-        int i = 0;
-        System.out.println("DEPECHE"+depeches.get(215).getId());
-        ArrayList<PaireChaineEntier> Score = new ArrayList<>();
-
-        for (int j = 0; j < cat_all.size(); j++) {
-            System.out.println("NOM Cat :"+cat_all.get(j).getNom());
-            PaireChaineEntier paire_x = new PaireChaineEntier(catégorie.get(j), cat_all.get(j).score(depeches.get(215)));
-            Score.add(paire_x);
-        }
-
-        FileWriter file = null;
-        try {
-            file = new FileWriter(nomFichier);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-
-        /*while (i < depeches.size()) {
-            System.out.println("DEPECHE"+depeches.get(i).getId());
-            ArrayList<PaireChaineEntier> Score = new ArrayList<>();
-            for (int j = 0; j < cat_all.size(); j++) {
-                System.out.println("NOM Cat :"+cat_all.get(j).getNom());
-                PaireChaineEntier paire_x = new PaireChaineEntier(catégorie.get(j), cat_all.get(j).score(depeches.get(i)));
-                Score.add(paire_x);
-            }*/
-            System.out.println("SCORES:");
-            for (int k = 0; k < Score.size(); k++) {
-
-                System.out.println(Score.get(k).getChaine() + ":" + Score.get(k).getEntier());
-
+        for (Depeche depeche : depeches) {
+            ArrayList<PaireChaineEntier> score = new ArrayList<>();
+            for (Categorie categorie : cat_all) {
+                PaireChaineEntier paire = new PaireChaineEntier(categorie.getNom(), categorie.score(depeche));
+                score.add(paire);
             }
-            System.out.println("--------------------");
-
-            resultat = UtilitairePaireChaineEntier.chaineMax(Score);
+            String resultat = UtilitairePaireChaineEntier.chaineMax(score);
             try {
-                // écrire dans un fichier réponse
-                for (int k = 0; k < Score.size(); k++) {
-                 //   System.out.println(Score.get(k).getChaine() + ":" + Score.get(k).getEntier());
-                }
-                file.write(depeches.get(i).getId() + ":"); // affichage de : 00X:
-                file.write(resultat); // affichage de la catégorie ayant le score max de la dépèche i
-                file.write('\n');
-
-
+                file.write(depeche.getId() + ":" + resultat + "\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            System.out.println(resultat);
-            System.out.println(depeches.get(i).getCategorie());
-            if (resultat.compareTo(depeches.get(i).getCategorie()) == 0) {
-
-                // Vérifie si la variable "resultat" est égale à la catégorie de la "depeche" actuelle dans la liste "depeches" à l'index "i"
-
-                if (depeches.get(i).getCategorie().compareTo(catégorie.get(0)) == 0) {
-                    // Incrémente le compteur c_politique si categorie de depeche == premier element de la liste categorie
+            if (resultat.compareTo(depeche.getCategorie()) == 0) {
+                if (depeche.getCategorie().compareTo("POLITIQUE") == 0) {
                     c_politique += 1;
-                } else if (depeches.get(i).getCategorie().compareTo(catégorie.get(1)) == 0) {
+                } else if (depeche.getCategorie().compareTo("ECONOMIE") == 0) {
                     c_economie += 1;
-                } else if (depeches.get(i).getCategorie().compareTo(catégorie.get(2)) == 0) {
+                } else if (depeche.getCategorie().compareTo("SPORTS") == 0) {
                     c_sports += 1;
-                } else if (depeches.get(i).getCategorie().compareTo(catégorie.get(3)) == 0) {
+                } else if (depeche.getCategorie().compareTo("ENVIRONNEMENT-SCIENCES") == 0) {
                     c_environement += 1;
-                } else {
+                } else if (depeche.getCategorie().compareTo("CULTURE") == 0) {
                     c_culture += 1;
                 }
             }
-
-            Score.clear();
-            i++;
-        
-        ArrayList<Integer> Resultat_pourcentage = new ArrayList<>(Arrays.asList(c_politique, c_economie, c_sports, c_environement, c_culture));
-
-        int l = 0; // initialise compteur l
-        while (l < catégorie.size()) { // parcours tous elements de categorie
-            try { //
-                file.write(catégorie.get(l) + ":" + " ".repeat(30 - catégorie.get(l).length()));
-                //  écrit la catégorie actuelle suivie d'un certain nombre d'espaces dans le fichier
-                file.write(Integer.toString(Resultat_pourcentage.get(l)) + "%");
-                // écrit le pourcentage de résultat correspondant à la catégorie actuelle dans le fichier
-                file.write("\n");
-                // ajoute un saut de ligne pour séparer les différentes catégories dans le fichier
-            } catch (IOException e) {
-                // gère les erreurs d'entrée/sortie
-                throw new RuntimeException(e);
-            }
-            l++; // continue le parcours
         }
-
-        try { // ferme le fichier une fois que toutes les données ont été écrites
+        System.out.println(c_culture);
+        try {
+            file.write("POLITIQUE:" + c_politique + "%\n");
+            file.write("ECONOMIE:" + c_economie + "%\n");
+            file.write("SPORTS:" + c_sports + "%\n");
+            file.write("ENVIRONNEMENT-SCIENCES:" + c_environement + "%\n");
+            file.write("CULTURE:" + c_culture + "%\n");
             file.close();
-        } catch (
-                IOException e) { // gère les erreurs d'entrée/sortie
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        System.out.println("votre saisie a été écrite avec succès dans fichier-sortie.txt");
-
-
     }
+
 
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
         ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
-
-        int i = 0;
-
-        // parcours de toutes les depêches
-        while (i < depeches.size()) {
-
-            // si la caté de la depêche est égal a catégorie
-            if (depeches.get(i).getCategorie().compareTo(categorie) == 0) {
-                ArrayList<String> contenu = depeches.get(i).getMots();
-                System.out.println(contenu);
-
-                // parcours de tous les mots de chaque depêche
-                int k = 0;
-                while (k < contenu.size()) {
-                    if (resultat.size() == 0) {
-                        PaireChaineEntier a_ajouter = new PaireChaineEntier(contenu.get(k), 0);
+        // parcours de toutes les dépêches
+        for (Depeche depeche : depeches) {
+            if(depeche.getCategorie().equals(categorie)){
+                ArrayList<String> contenu = depeche.getMots();
+                // parcours de tous les mots de chaque dépêche
+                for (String mot : contenu) {
+                    boolean motExiste = false;
+                    // parcours tous les mots déjà présents dans resultat
+                    for (PaireChaineEntier paire : resultat) {
+                        if (paire.getChaine().equals(mot)) {
+                            motExiste = true;
+                            break;
+                        }
+                    }
+                    if (!motExiste) {
+                        PaireChaineEntier a_ajouter = new PaireChaineEntier(mot, 0);
                         resultat.add(a_ajouter);
                     }
-                    else {
-                        int j = 0;
-                        boolean ajout = false;
-                        // parcours tous les mots déjà présent dans résultat
-                        while (j < resultat.size()) {
-                            // si le mot de résultat n'est pas égal au mot de contenu
-                            if (resultat.get(j).getChaine().compareTo(contenu.get(k)) != 0) {
-                                ajout = true;
-                            }
-                            else if (resultat.get(j).getChaine().compareTo(contenu.get(k)) == 0){
-                                break;
-                            }
-                            j++;
-
-                        }
-                        if (ajout) {
-                            PaireChaineEntier a_ajouter = new PaireChaineEntier(contenu.get(k), 0);
-                            resultat.add(a_ajouter);
-                        }
-
-                    }
-                    k++;
                 }
             }
-            i++;
         }
-
-
         return resultat;
-
     }
+
+
 
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
-
-        int i = 0;
-
-        // parcours de tous les mots de la catégorie x
-        while (i < dictionnaire.size()) {
-
-            // parcours de toutes les depêches
-            int j = 0;
-            while (j < depeches.size()) {
-
-                // parcours de tous les mots de chaque depêche
-                int k = 0;
-                while (k < depeches.get(j).getMots().size()) {
-
-                    int score = dictionnaire.get(i).getEntier();
-                    // si le mot du dico est égale au mot de la depêche
-                    if ((dictionnaire.get(i).getChaine().compareTo(depeches.get(j).getMots().get(k)) == 0)) {
-
-                        //  la catégorie du mot de la depêche est categorie (paramètre)
-                        if (depeches.get(j).getCategorie().compareTo(categorie) == 0) {
-                            dictionnaire.get(i).setEntier(score + 1);
-                        } else if (depeches.get(j).getCategorie().compareTo(categorie) != 0) {
-                            dictionnaire.get(i).setEntier(score - 1);
-                        }
-                    }
-                    k++;
+        for (PaireChaineEntier paire : dictionnaire) {
+            for (Depeche depeche : depeches) {
+                if (depeche.getCategorie().equals(categorie) && depeche.getMots().contains(paire.getChaine())) {
+                    paire.setEntier(paire.getEntier() + 1);
+                } else if (!depeche.getCategorie().equals(categorie) && depeche.getMots().contains(paire.getChaine())) {
+                    paire.setEntier(paire.getEntier() - 1);
                 }
-                j++;
             }
-            i++;
         }
-
     }
+
 
     public static int poidsPourScore(int score) {
         int poids = 0;
@@ -258,35 +154,18 @@ public class Classification {
     }
 
     public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {
-
         ArrayList<PaireChaineEntier> newDico = initDico(depeches, categorie);
         calculScores(depeches, categorie, newDico);
 
-        FileWriter file = null;
-        try {
-            file = new FileWriter(nomFichier);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        int i = 0;
-
-        while (i < newDico.size()) {
-            try {
-                file.write(newDico.get(i).getChaine() + ":" + poidsPourScore(newDico.get(i).getEntier()) + "\n");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        try (FileWriter file = new FileWriter(nomFichier)) {
+            for (PaireChaineEntier paire : newDico) {
+                file.write(paire.getChaine() + ":" + poidsPourScore(paire.getEntier()) + "\n");
             }
-            i++;
-        }
-
-        try {
-            file.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
+
 
     public static void main(String[] args) {
 
@@ -353,26 +232,29 @@ public class Classification {
 //        PARTIE 2
 //        ----------------------------------------
 
-        /*ArrayList<PaireChaineEntier> resultat = initDico(depeches, "ENVIRONNEMENT-SCIENCES");
-        calculScores(depeches, "ENVIRONNEMENT-SCIENCES", resultat);
+//        ArrayList<PaireChaineEntier> resultat = initDico(depeches, "SPORTS");
+//        calculScores(depeches, "SPORTS", resultat);
+//
+//        int i = 0;
+//        int max = 0;
+//        while (i < resultat.size()) {
+//            System.out.println(resultat.get(i).getChaine() + ": " + resultat.get(i).getEntier());
+//
+//            if (resultat.get(i).getEntier() > resultat.get(max).getEntier()) {
+//                max = i;
+//            }
+//            i++;
+//        }
+//
+//        System.out.println(resultat.size());
+//        System.out.println(resultat.get(max).getChaine() + ": " + resultat.get(max).getEntier());
 
-        int i = 0;
-        int max = 0;
-        while (i < resultat.size()) {
-            System.out.println(resultat.get(i).getChaine() + ": " + resultat.get(i).getEntier());
 
-            if (resultat.get(i).getEntier() > resultat.get(max).getEntier()) {
-                max = i;
-            }
-            i++;
-        }
-
-        System.out.println(resultat.size());
-        System.out.println(resultat.get(max).getChaine() + ": " + resultat.get(max).getEntier());
-
-
-//        generationLexique(depeches, "CULTURE", "lexique_culture_auto");*/
-        // appeler 5 fois pour les categories
+//        generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "lexique_science_auto");
+//        generationLexique(depeches, "POLITIQUE", "lexique_politique_auto");
+//        generationLexique(depeches, "ECONOMIE", "lexique_economie_auto");
+//        generationLexique(depeches, "SPORTS", "lexique_sport_auto");
+//        generationLexique(depeches, "CULTURE", "lexique_culture_auto");
 
     }
 

@@ -65,18 +65,13 @@ public class Categorie {
 
     //calcul du score d'une dépêche pour la catégorie
     public int score(Depeche d) {
-        int i = 0;
         int somme = 0;
-//      Initialisation des variables
-
-        while (i < d.getMots().size()) {// Boucle tant que i < tous les mots de la dépèche
-            somme += UtilitairePaireChaineEntier.entierPourChaine(lexique, d.getMots().get(i)); // faire la somme pour chaque mot de leurs poids
-            System.out.println(UtilitairePaireChaineEntier.entierPourChaine(lexique, d.getMots().get(i)));
-            i++;//incrémentation
+        for (String mot : d.getMots()) {
+            somme += UtilitairePaireChaineEntier.entierPourChaine(lexique, mot);
         }
-
-        return somme;//retourner la somme
+        return somme;
     }
+
 
 
 }
