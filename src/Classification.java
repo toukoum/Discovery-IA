@@ -145,64 +145,42 @@ public class Classification {
         ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
 
         int i = 0;
-        while (i < depeches.size()){
-            depeches.get(i).getMots(); // sachant que this.mots = decoupeEnMots(contenu);
-            i++; // nous permet d'utiliser la fonction dans depeche
+
+        while (i < depeches.size()) {
 
             if (depeches.get(i).getCategorie().compareTo(categorie) == 0) {
+                ArrayList<String> contenu = depeches.get(i).getMots();
+                System.out.println(contenu);
 
-                String contenu = depeches.get(i).getContenu();
-                String chaine = contenu.toLowerCase();
-                String[] tabchaine = chaine.split(" ");
-        /*while (i < depeches.size()) {
-            if (depeches.get(i).getCategorie().compareTo(categorie) == 0) {
-
-                String contenu = depeches.get(i).getContenu();
-                String chaine = contenu.toLowerCase();
-                chaine = chaine.replace('\n', ' ');// remplace les caractères spéciaux par des espaces
-                chaine = chaine.replace('.', ' ');
-                chaine = chaine.replace(',', ' ');
-                chaine = chaine.replace('\'', ' ');
-                chaine = chaine.replace('\"', ' ');
-                chaine = chaine.replace('(', ' ');
-                chaine = chaine.replace(')', ' ');
-                String[] tabchaine = chaine.split(" ");*/
-
-                // parcours de tous les éléments de tabchaine
-                for (int j = 0; j < tabchaine.length; j++) {
-                    // si l'élément n'est pas null
-                    if (!tabchaine[j].equals("")) {
-                        //  vérification que le mot à l'index j de tabchaine n'est pas présent dans resultat
-                        // si résultat est null forcément on ajoute la paire
-                        if (resultat.size() == 0) {
-                            PaireChaineEntier a_ajouter = new PaireChaineEntier(tabchaine[j], 0);
+                int k = 0;
+                while (k < contenu.size()) {
+                    if (resultat.size() == 0) {
+                        PaireChaineEntier a_ajouter = new PaireChaineEntier(contenu.get(k), 0);
+                        resultat.add(a_ajouter);
+                    }
+                    else {
+                        int j = 0;
+                        boolean ajout = false;
+                        // parcours tous les mots déjà présent dans résultat
+                        while (j < resultat.size()) {
+                            // si le mot de résultat n'est pas égal au mot de contenu
+                            if (resultat.get(j).getChaine().compareTo(contenu.get(k)) != 0) {
+                                ajout = true;
+                            }
+                            else if (resultat.get(j).getChaine().compareTo(contenu.get(k)) == 0){
+                                break;
+                            }
+                            j++;
+                        }
+                        if (ajout) {
+                            PaireChaineEntier a_ajouter = new PaireChaineEntier(contenu.get(k), 0);
                             resultat.add(a_ajouter);
-
-                        } else {
-                            int k = 0;
-                            boolean ajout = false;
-                            while (k < resultat.size()) {
-                                if (!tabchaine[j].equals(resultat.get(k).getChaine())) {
- // Si le mot de tabchaine n'est pas déjà présent dans resultat
-                                    ajout = true;
-                                }
-                                k++;
-                            }
-
-                            if (ajout) {
-                                // ajout d'une nouvelle paire Chaine/Entier dans résultat; initialisation du score à zéro
-                                PaireChaineEntier a_ajouter = new PaireChaineEntier(tabchaine[j], 0);
-                                resultat.add(a_ajouter);
-
-                            }
-
                         }
                     }
-
+                    k++;
                 }
             }
             i++;
-
         }
 
 
@@ -227,14 +205,13 @@ public class Classification {
 
                     int score = dictionnaire.get(i).getEntier();
                     // si le mot du dico est égale au mot de la depêche
-                    if ((dictionnaire.get(i).getChaine().compareTo(depeches.get(j).getMots().get(k)) == 0)){
+                    if ((dictionnaire.get(i).getChaine().compareTo(depeches.get(j).getMots().get(k)) == 0)) {
 
                         //  la catégorie du mot de la depêche est categorie (paramètre)
-                        if (depeches.get(j).getCategorie().compareTo(categorie) == 0){
+                        if (depeches.get(j).getCategorie().compareTo(categorie) == 0) {
                             dictionnaire.get(i).setEntier(score + 1);
-                        }
-                        else if (depeches.get(j).getCategorie().compareTo(categorie) != 0){
-                            dictionnaire.get(i).setEntier(score -1);
+                        } else if (depeches.get(j).getCategorie().compareTo(categorie) != 0) {
+                            dictionnaire.get(i).setEntier(score - 1);
                         }
                     }
                     k++;
@@ -253,8 +230,7 @@ public class Classification {
             poids = 3;
         } else if (score == 0) {
             poids = 2;
-        }
-        else {
+        } else {
             poids = 1;
         }
 
@@ -357,25 +333,25 @@ public class Classification {
 //        PARTIE 2
 //        ----------------------------------------
 
-//        ArrayList<PaireChaineEntier> resultat = initDico(depeches, "CULTURE");
-//        calculScores(depeches, "CULTURE", resultat);
-//
-//        int i = 0;
-//        int max = 0;
-//        while (i < resultat.size()) {
-//            System.out.println(resultat.get(i).getChaine() + ": " + resultat.get(i).getEntier());
-//
-//            if (resultat.get(i).getEntier() > resultat.get(max).getEntier()) {
-//                max = i;
-//            }
-//            i++;
-//        }
-//
-//        System.out.println(resultat.size());
-//        System.out.println(resultat.get(max).getChaine() + ": " + resultat.get(max).getEntier());
+        ArrayList<PaireChaineEntier> resultat = initDico(depeches, "ENVIRONNEMENT-SCIENCES");
+        calculScores(depeches, "ENVIRONNEMENT-SCIENCES", resultat);
+
+        int i = 0;
+        int max = 0;
+        while (i < resultat.size()) {
+            System.out.println(resultat.get(i).getChaine() + ": " + resultat.get(i).getEntier());
+
+            if (resultat.get(i).getEntier() > resultat.get(max).getEntier()) {
+                max = i;
+            }
+            i++;
+        }
+
+        System.out.println(resultat.size());
+        System.out.println(resultat.get(max).getChaine() + ": " + resultat.get(max).getEntier());
 
 
-        generationLexique(depeches, "CULTURE", "lexique_culture_auto");
+//        generationLexique(depeches, "CULTURE", "lexique_culture_auto");
         // appeler 5 fois pour les categories
 
     }
