@@ -171,6 +171,7 @@ public class Classification {
                                 break;
                             }
                             j++;
+
                         }
                         if (ajout) {
                             PaireChaineEntier a_ajouter = new PaireChaineEntier(contenu.get(k), 0);
