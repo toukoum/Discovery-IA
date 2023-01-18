@@ -21,7 +21,7 @@ public class UtilitairePaireChaineEntier {
     }
 
     public static int entierPourChaine(ArrayList<PaireChaineEntier> listePaires, String chaine) {
-        int i = 0;// inariant
+        int i = 0;// invariant
 
         while (i < listePaires.size() && listePaires.get(i).getChaine().compareTo(chaine) != 0) { // boucle parcours du vecteur tant que parametre != chaine soit le nom
             i++;// incrémentation

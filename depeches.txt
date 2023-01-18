@@ -1,7 +1,7 @@
 .N 001
 .D 140208
 .C ENVIRONNEMENT-SCIENCES
-.T Des cellules souches ont été produites à partir de cellules adultes
+.T Des Des cellules souches ont été produites à partir de cellules adultes
 sans provoquer de tumeur.
 
 .N 002

@@ -51,10 +51,18 @@ public class Classification {
         int c_environement = 0;
         int c_culture = 0;
 
-        ArrayList<PaireChaineEntier> Score = new ArrayList<>();
+
         ArrayList<String> catégorie = new ArrayList<>(Arrays.asList("POLITIQUE", "ECONOMIE", "SPORTS", "ENVIRONNEMENT-SCIENCES", "CULTURE"));
 
         int i = 0;
+        System.out.println("DEPECHE"+depeches.get(215).getId());
+        ArrayList<PaireChaineEntier> Score = new ArrayList<>();
+
+        for (int j = 0; j < cat_all.size(); j++) {
+            System.out.println("NOM Cat :"+cat_all.get(j).getNom());
+            PaireChaineEntier paire_x = new PaireChaineEntier(catégorie.get(j), cat_all.get(j).score(depeches.get(215)));
+            Score.add(paire_x);
+        }
 
         FileWriter file = null;
         try {
@@ -64,19 +72,27 @@ public class Classification {
         }
 
 
-        while (i < depeches.size()) {
-
-
+        /*while (i < depeches.size()) {
+            System.out.println("DEPECHE"+depeches.get(i).getId());
+            ArrayList<PaireChaineEntier> Score = new ArrayList<>();
             for (int j = 0; j < cat_all.size(); j++) {
+                System.out.println("NOM Cat :"+cat_all.get(j).getNom());
                 PaireChaineEntier paire_x = new PaireChaineEntier(catégorie.get(j), cat_all.get(j).score(depeches.get(i)));
                 Score.add(paire_x);
+            }*/
+            System.out.println("SCORES:");
+            for (int k = 0; k < Score.size(); k++) {
+
+                System.out.println(Score.get(k).getChaine() + ":" + Score.get(k).getEntier());
+
             }
+            System.out.println("--------------------");
 
             resultat = UtilitairePaireChaineEntier.chaineMax(Score);
             try {
                 // écrire dans un fichier réponse
                 for (int k = 0; k < Score.size(); k++) {
-                    System.out.println(Score.get(k).getChaine() + ":" + Score.get(k).getEntier());
+                 //   System.out.println(Score.get(k).getChaine() + ":" + Score.get(k).getEntier());
                 }
                 file.write(depeches.get(i).getId() + ":"); // affichage de : 00X:
                 file.write(resultat); // affichage de la catégorie ayant le score max de la dépèche i
@@ -109,8 +125,7 @@ public class Classification {
 
             Score.clear();
             i++;
-        }
-        System.out.println(c_economie);
+        
         ArrayList<Integer> Resultat_pourcentage = new ArrayList<>(Arrays.asList(c_politique, c_economie, c_sports, c_environement, c_culture));
 
         int l = 0; // initialise compteur l
@@ -146,12 +161,15 @@ public class Classification {
 
         int i = 0;
 
+        // parcours de toutes les depêches
         while (i < depeches.size()) {
 
+            // si la caté de la depêche est égal a catégorie
             if (depeches.get(i).getCategorie().compareTo(categorie) == 0) {
                 ArrayList<String> contenu = depeches.get(i).getMots();
                 System.out.println(contenu);
 
+                // parcours de tous les mots de chaque depêche
                 int k = 0;
                 while (k < contenu.size()) {
                     if (resultat.size() == 0) {
@@ -177,6 +195,7 @@ public class Classification {
                             PaireChaineEntier a_ajouter = new PaireChaineEntier(contenu.get(k), 0);
                             resultat.add(a_ajouter);
                         }
+
                     }
                     k++;
                 }
@@ -294,7 +313,7 @@ public class Classification {
         lexique_economie.initLexique("./lexique_economie");// Fonction initLexique appelé pour injecter les lexiques_economie dans economie
         lexique_sports.initLexique("./lexique_sports");// Fonction initLexique appelé pour injecter les lexiques_sports dans sports
         lexique_environement_science.initLexique("lexique_environnement-sciences");// Fonction initLexique appelé pour injecter les lexiques_environement_science dans environement_science
-        lexique_culture.initLexique("./lexique_culture_auto");// Fonction initLexique appelé pour injecter les lexiques_culture dans culture
+        lexique_culture.initLexique("./lexique_culture");// Fonction initLexique appelé pour injecter les lexiques_culture dans culture
 
 //        int p = 0;
 //        while (p < lexique_economie.getLexique().size()) {
@@ -334,7 +353,7 @@ public class Classification {
 //        PARTIE 2
 //        ----------------------------------------
 
-        ArrayList<PaireChaineEntier> resultat = initDico(depeches, "ENVIRONNEMENT-SCIENCES");
+        /*ArrayList<PaireChaineEntier> resultat = initDico(depeches, "ENVIRONNEMENT-SCIENCES");
         calculScores(depeches, "ENVIRONNEMENT-SCIENCES", resultat);
 
         int i = 0;
@@ -352,7 +371,7 @@ public class Classification {
         System.out.println(resultat.get(max).getChaine() + ": " + resultat.get(max).getEntier());
 
 
-//        generationLexique(depeches, "CULTURE", "lexique_culture_auto");
+//        generationLexique(depeches, "CULTURE", "lexique_culture_auto");*/
         // appeler 5 fois pour les categories
 
     }

@@ -71,6 +71,7 @@ public class Categorie {
 
         while (i < d.getMots().size()) {// Boucle tant que i < tous les mots de la dépèche
             somme += UtilitairePaireChaineEntier.entierPourChaine(lexique, d.getMots().get(i)); // faire la somme pour chaque mot de leurs poids
+            System.out.println(UtilitairePaireChaineEntier.entierPourChaine(lexique, d.getMots().get(i)));
             i++;//incrémentation
         }
 
