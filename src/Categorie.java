@@ -28,18 +28,18 @@ public class Categorie {
     // initialisation du lexique de la catégorie à partir du contenu d'un fichier texte
     public void initLexique(String nomFichier) {
         try {
-            FileInputStream file = new FileInputStream(nomFichier);
-            Scanner scanner = new Scanner(file);
+            FileInputStream file = new FileInputStream(nomFichier);//prend le nom du fichier lexique
+            Scanner scanner = new Scanner(file);// declaration d'un scanner
             while (scanner.hasNextLine()) {
                 String ligne = scanner.nextLine();
-                int sep = ligne.indexOf(":");
+                int sep = ligne.indexOf(":");// separation des mots a gauche du ":"
                 String text = ligne.substring(0, sep);
-                int poids_int = Integer.parseInt(ligne.substring(sep + 1));
+                int poids_int = Integer.parseInt(ligne.substring(sep + 1)); // separation des entiers a droite du ":"
                 PaireChaineEntier unlexique = new PaireChaineEntier(text, poids_int);
-                lexique.add(unlexique);
+                lexique.add(unlexique);//Ajout du mot au lexique(nomFichier)
             }
             scanner.close();
-        } catch (IOException e) {
+        } catch (IOException e) {// si execption placer dans un block
             e.printStackTrace();
         }
     }
@@ -51,6 +51,7 @@ public class Categorie {
     public int score(Depeche d) {
         int somme = 0;
         for (String mot : d.getMots()) {
+            // rech dicho, donc donner le debut et la fin du vecteur pour trouver milieu
             somme += UtilitairePaireChaineEntier.entierPourChaine(lexique, mot, 0, lexique.size()-1);
         }
         return somme;

@@ -44,12 +44,13 @@ public class Classification {
 
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> cat_all, String nomFichier) {
 
-        FileWriter file;
+        FileWriter file; // declare file type FileWriter
         try {
-            file = new FileWriter(nomFichier);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            file = new FileWriter(nomFichier); // Creation nouveau fichier
+        } catch (IOException e) {//Si exception
+            throw new RuntimeException(e);// exception si temps trop long, program continue quand meme
         }
+        // initialisation des categories
         int c_politique = 0;
         int c_economie = 0;
         int c_sports = 0;
@@ -57,28 +58,28 @@ public class Classification {
         int c_culture = 0;
 
 
-        for (Depeche depeche : depeches) {
-            ArrayList<PaireChaineEntier> score = new ArrayList<>();
-            for (Categorie categorie : cat_all) {
-                PaireChaineEntier paire = new PaireChaineEntier(categorie.getNom(), categorie.score(depeche));
-                score.add(paire);
+        for (Depeche depeche : depeches) {//parcours vecteur [depeches]
+            ArrayList<PaireChaineEntier> score = new ArrayList<>(); // declaration liste score
+            for (Categorie categorie : cat_all) {//parcours vecteur [cat_all]
+                PaireChaineEntier paire = new PaireChaineEntier(categorie.getNom(), categorie.score(depeche)); // initialisation liste paire
+                score.add(paire); // addition de paire
             }
-            String resultat = UtilitairePaireChaineEntier.chaineMax(score);
+            String resultat = UtilitairePaireChaineEntier.chaineMax(score); // variable res = chainemax score
             try {
-                file.write(depeche.getId() + ":" + resultat + "\n");
+                file.write(depeche.getId() + ":" + resultat + "\n"); // ecriture numero depeche + score
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (resultat.compareTo(depeche.getCategorie()) == 0) {
-                if (depeche.getCategorie().compareTo("POLITIQUE") == 0) {
+            if (resultat.compareTo(depeche.getCategorie()) == 0) { // si res = cat_initial
+                if (depeche.getCategorie().compareTo("POLITIQUE") == 0) { //si cat est politique
                     c_politique += 1;
-                } else if (depeche.getCategorie().compareTo("ECONOMIE") == 0) {
+                } else if (depeche.getCategorie().compareTo("ECONOMIE") == 0) {//si cat est eco
                     c_economie += 1;
-                } else if (depeche.getCategorie().compareTo("SPORTS") == 0) {
+                } else if (depeche.getCategorie().compareTo("SPORTS") == 0) {//si cat est sport
                     c_sports += 1;
-                } else if (depeche.getCategorie().compareTo("ENVIRONNEMENT-SCIENCES") == 0) {
+                } else if (depeche.getCategorie().compareTo("ENVIRONNEMENT-SCIENCES") == 0) {//si cat est envir
                     c_environement += 1;
-                } else if (depeche.getCategorie().compareTo("CULTURE") == 0) {
+                } else if (depeche.getCategorie().compareTo("CULTURE") == 0) {//si cat est cult
                     c_culture += 1;
                 }
             }
@@ -142,10 +143,10 @@ public class Classification {
 
 
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
-        for (PaireChaineEntier paire : dictionnaire) {
-            for (Depeche depeche : depeches) {
+        for (PaireChaineEntier paire : dictionnaire) { // parcours vecteurs dictionnaire
+            for (Depeche depeche : depeches) { // parcours vecteurs depeches
                 if (depeche.getCategorie().equals(categorie) && depeche.getMots().contains(paire.getChaine())) {
-                    paire.setEntier(paire.getEntier() + 1);
+                    paire.setEntier(paire.getEntier() + 1); // si cat de depeche = cat_initia et mots de depeches contient chaine de paire
                 } else if (!depeche.getCategorie().equals(categorie) && depeche.getMots().contains(paire.getChaine())) {
                     paire.setEntier(paire.getEntier() - 2);
                 }
@@ -166,7 +167,7 @@ public class Classification {
             }
             triVecteurFusion(gauche);
             triVecteurFusion(droite);
-            fusion(gauche, droite, atrie);
+            fusion(gauche, droite, atrie);//recursivite fonction fusion
         }
     }
 
@@ -205,9 +206,9 @@ public class Classification {
     }
 
     public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {
-        ArrayList<PaireChaineEntier> newDico = initDico(depeches, categorie);
-        calculScores(depeches, categorie, newDico);
-        triVecteurFusion(newDico);
+        ArrayList<PaireChaineEntier> newDico = initDico(depeches, categorie); // initialise liste dictionnaire des depeches d'une cat (creation lexique)
+        calculScores(depeches, categorie, newDico);// calc des depeches
+        triVecteurFusion(newDico);// trie dictionnaire
 
         try (FileWriter file = new FileWriter(nomFichier)) {
             for (PaireChaineEntier paire : newDico) {
@@ -275,7 +276,7 @@ public class Classification {
             System.out.print("\nCONTINUEZ (o/n):");
             encore = lecteur.nextLine();
 
-       } while (encore.compareTo("o") != 0);
+        } while (encore.compareTo("o") != 0);
 
 
 
