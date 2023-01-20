@@ -113,7 +113,7 @@ public class Classification {
 
                 // delete de tout les mots non intéréssant de chaque depêche  "[a-zA-Z]{2,}+\\.?"
                 for (int mot = 0; mot < contenu.size(); mot ++) {
-                    if ((contenu.get(mot).matches("\\W{0,}")) || (contenu.get(mot).matches("\\d{0,}")) || (contenu.get(mot).matches("[a-zA-Z]"))) {
+                    if ((contenu.get(mot).matches("\\W*")) || (contenu.get(mot).matches("\\d*")) || (contenu.get(mot).matches("[a-zA-Z]"))) {
                         contenu.remove(contenu.get(mot));
                         mot-=1;
                     }
@@ -154,8 +154,8 @@ public class Classification {
 
     public static void triVecteurFusion(ArrayList<PaireChaineEntier> atrie) {
         if (atrie.size() > 1) {
-            ArrayList<PaireChaineEntier> gauche = new ArrayList<PaireChaineEntier>();
-            ArrayList<PaireChaineEntier> droite = new ArrayList<PaireChaineEntier>();
+            ArrayList<PaireChaineEntier> gauche = new ArrayList<>();
+            ArrayList<PaireChaineEntier> droite = new ArrayList<>();
             int milieu = atrie.size() / 2;
             for (int i = 0; i < milieu; i++) {
                 gauche.add(atrie.get(i));
@@ -194,7 +194,7 @@ public class Classification {
 
         if (score > 2) {
             poids = 3;
-        } else if ((score >= 0) && (score <= 2)) {
+        } else if ((score >= 0)) {
             poids = 2;
         } else {
             poids = 1;
