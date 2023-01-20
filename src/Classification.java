@@ -87,16 +87,17 @@ public class Classification {
         ArrayList<Integer> liste_compteur = new ArrayList<>(Arrays.asList(c_politique, c_economie, c_sports, c_environement, c_culture));
 
         try {
-            file.write("POLITIQUE:" + c_politique + "%\n");
-            file.write("ECONOMIE:" + c_economie + "%\n");
-            file.write("SPORTS:" + c_sports + "%\n");
-            file.write("ENVIRONNEMENT-SCIENCES:" + c_environement + "%\n");
-            file.write("CULTURE:" + c_culture + "%\n");
-            file.write("MOYENNE:" + UtilitairePaireChaineEntier.moyenne(liste_compteur) + "%\n");
+            file.write("POLITIQUE:" + " ".repeat(21) + c_politique + "%\n");
+            file.write("ECONOMIE:" + " ".repeat(22) + c_economie + "%\n");
+            file.write("SPORTS:" + " ".repeat(24) + c_sports + "%\n");
+            file.write("ENVIRONNEMENT-SCIENCES:" + " ".repeat(8) + c_environement + "%\n");
+            file.write("CULTURE:" + " ".repeat(23) + c_culture + "%\n");
+            file.write("MOYENNE:" + " ".repeat(23) + UtilitairePaireChaineEntier.moyenne(liste_compteur) + "%\n");
             file.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
 
     }
