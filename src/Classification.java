@@ -85,9 +85,7 @@ public class Classification {
         }
 
         ArrayList<Integer> liste_compteur = new ArrayList<>(Arrays.asList(c_politique, c_economie, c_sports, c_environement, c_culture));
-        for (Integer compteur : liste_compteur) {
-            System.out.println(compteur);
-        }
+
         try {
             file.write("POLITIQUE:" + c_politique + "%\n");
             file.write("ECONOMIE:" + c_economie + "%\n");
@@ -217,16 +215,17 @@ public class Classification {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
 
     public static void main(String[] args) {
-        long startTime = System.currentTimeMillis();
+        Scanner lecteur = new Scanner(System.in);
 
         //Chargement des dépêches en mémoire
-        System.out.println("chargement des dépêches");
+        System.out.println("-------------------------------------------------------\nDEBUT DU PROGRAMME DE PRESENTATION\n-------------------------------------------------------\n");
+        System.out.println("---------\nPARTIE I\n---------\n");
+
+        long startTime = System.currentTimeMillis();
         ArrayList<Depeche> depeches = lectureDepeches("depeches.txt");
         ArrayList<Depeche> depeches_test = lectureDepeches("./test.txt");
 
@@ -237,72 +236,55 @@ public class Classification {
         Categorie lexique_environement_science = new Categorie("ENVIRONNEMENT-SCIENCES"); // Création d'un objet 'Catégorie' de nom 'environement_science'
         Categorie lexique_culture = new Categorie("CULTURE"); // Création d'un objet 'Catégorie' de nom 'culture'
 
+        System.out.println("1- INITIALISATION DES LEXIQUES\n------------------------------\n");
 
         ArrayList<Categorie> cat_all = new ArrayList<>(Arrays.asList(lexique_politique, lexique_economie, lexique_sports, lexique_environement_science, lexique_culture));
-//
-//        lexique_politique.initLexique("./lexique_politique");// Fonction initLexique appelé pour injecter les lexiques_politique dans politique
-//        lexique_economie.initLexique("./lexique_economie");// Fonction initLexique appelé pour injecter les lexiques_economie dans economie
-//        lexique_sports.initLexique("./lexique_sports");// Fonction initLexique appelé pour injecter les lexiques_sports dans sports
-//        lexique_environement_science.initLexique("lexique_environnement-sciences");// Fonction initLexique appelé pour injecter les lexiques_environement_science dans environement_science
-//        lexique_culture.initLexique("./lexique_culture");// Fonction initLexique appelé pour injecter les lexiques_culture dans culture
 
-//        int p = 0;
-//        while (p < lexique_economie.getLexique().size()) {
-//            System.out.println(lexique_economie.getLexique().get(p).getChaine() + ":" + lexique_economie.getLexique().get(p).getEntier());
-//           p++;
-//        }
-//
-//
-//        ArrayList<PaireChaineEntier> Score = new ArrayList<>();
-//        ArrayList<String> catégorie = new ArrayList<>(Arrays.asList("lexique_politique", "lexique_économie", "lexique_sports", "lexique_environement_science", "lexique_culture"));
-//        for (int i = 0; i < cat_all.size(); i++) {
-//            PaireChaineEntier paire_x = new PaireChaineEntier(catégorie.get(i), cat_all.get(i).score(depeches.get(201)));
-//            Score.add(paire_x);
-//        }
-//
-////
-////
-//        int i = 0;// initialisation invariant
-//
-//        while (i < Score.size()) { // tant que i est < au vecteur lexique
-//            Score.get(i).afficher(); // affichage de l'élément i avec la valeur du text et du poid
-//            i++;
-//        }
-//
-//
-//        System.out.println(UtilitairePaireChaineEntier.chaineMax(Score));
+        lexique_politique.initLexique("./lexique_politique");// Fonction initLexique appelé pour injecter les lexiques_politique dans politique
+        lexique_economie.initLexique("./lexique_economie");// Fonction initLexique appelé pour injecter les lexiques_economie dans economie
+        lexique_sports.initLexique("./lexique_sports");// Fonction initLexique appelé pour injecter les lexiques_sports dans sports
+        lexique_environement_science.initLexique("lexique_environnement-sciences");// Fonction initLexique appelé pour injecter les lexiques_environement_science dans environement_science
+        lexique_culture.initLexique("./lexique_culture");// Fonction initLexique appelé pour injecter les lexiques_culture dans culture
+        long endTime = System.currentTimeMillis();
 
 
-//        classementDepeches(depeches, cat_all, "fichier_sortie.txt");
+        System.out.println("Lexique économie :");
+        int p = 0;
+        while (p < lexique_economie.getLexique().size()) {
+            System.out.println(lexique_economie.getLexique().get(p).getChaine() + ": " + lexique_economie.getLexique().get(p).getEntier());
+            p++;
+        }
 
-//        afficahge de la fonction qui retourne l'entier associé à la chaine de caractères dans listePaires
-//        int entPaire = UtilitairePaireChaineEntier.entierPourChaine(vlexique_culture, "art");
-//        System.out.println(entPaire);
+
+        System.out.println("\n2- CLASSEMENT DES DEPECHES\n---------------------------\n");
+        long startTime3 = System.currentTimeMillis();
+        classementDepeches(depeches, cat_all, "fichier-sortie-manuel.txt");
+        long endTime3 = System.currentTimeMillis();
+
+        System.out.println(" Les dépêches ont bien été classifiées, tous les résultats sont dans le fichier : fichier-sortie-manuel.txt");
+
+        long init = (endTime - startTime);
+        long classi = (endTime3 - startTime3);
+        System.out.println("\n Le temps de l'initialisation des lexiques à pris :" + init + "ms");
+        System.out.println(" Le temps de la classification des lexiques à pris :" + classi + "ms");
+        System.out.println(" Temps total : " + (init+classi) + "ms");
+
+        String encore;
+        do {
+            System.out.print("\nCONTINUEZ (o/n):");
+            encore = lecteur.nextLine();
+
+       } while (encore.compareTo("o") != 0);
 
 
-//        System.out.println(UtilitairePaireChaineEntier.chaineMax(vlexique_culture)); // appele la fonction qui renvoie la chaine avec le poids (entier) le plus grand
 
 //        ----------------------------------------
 //        PARTIE 2
 //        ----------------------------------------
 
-//        ArrayList<PaireChaineEntier> resultat = initDico(depeches, "SPORTS");
-//        calculScores(depeches, "SPORTS", resultat);
-//
-//        int i = 0;
-//        int max = 0;
-//        while (i < resultat.size()) {
-//            System.out.println(resultat.get(i).getChaine() + ": " + resultat.get(i).getEntier());
-//
-//            if (resultat.get(i).getEntier() > resultat.get(max).getEntier()) {
-//                max = i;
-//            }
-//            i++;
-//        }
-//
-//        System.out.println(resultat.size());
-//        System.out.println(resultat.get(max).getChaine() + ": " + resultat.get(max).getEntier());
+        System.out.println("---------\nPARTIE II\n---------\n");
 
+        long startTime2 = System.currentTimeMillis();
 
         generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "lexique_environnement-sciences_auto");
         generationLexique(depeches, "POLITIQUE", "lexique_politique_auto");
@@ -310,22 +292,32 @@ public class Classification {
         generationLexique(depeches, "SPORTS", "lexique_sports_auto");
         generationLexique(depeches, "CULTURE", "lexique_culture_auto");
 
-
         lexique_politique.initLexique("lexique_politique_auto");// Fonction initLexique appelé pour injecter les lexiques_politique dans politique
         lexique_economie.initLexique("lexique_economie_auto");// Fonction initLexique appelé pour injecter les lexiques_economie dans economie
         lexique_sports.initLexique("lexique_sports_auto");// Fonction initLexique appelé pour injecter les lexiques_sports dans sports
         lexique_environement_science.initLexique("lexique_environnement-sciences_auto");// Fonction initLexique appelé pour injecter les lexiques_environement_science dans environement_science
         lexique_culture.initLexique("lexique_culture_auto");// Fonction initLexique appelé pour injecter les lexiques_culture dans culture
 
+        long endTime2 = System.currentTimeMillis();
 
 
-        classementDepeches(depeches_test, cat_all, "fichier_sortie.txt");
+        System.out.println("1- INITIALISATION DES LEXIQUES\n------------------------------\n");
+        System.out.println("Les lexiques ont bien été initialisés de façon automatique.\n");
 
 
-        long endTime = System.currentTimeMillis();
-        System.out.println("votre saisie a été réalisée en : " + (endTime - startTime) + "ms");
+        System.out.println("2- CLASSEMENT DES DEPECHES\n---------------------------\n");
 
+        long startTime4 = System.currentTimeMillis();
+        classementDepeches(depeches_test, cat_all, "fichier_sortie-automatique.txt");
+        long endTime4 = System.currentTimeMillis();
 
+        System.out.println("les dépêches ont bien été classifié, tous les résultats sont dans le fichier : fichier-sortie-automatique");
+
+        init = (endTime2 - startTime2);
+        classi = (endTime4 - startTime4);
+        System.out.println("\n Le temps de l'initialisation des lexiques à pris :" + init + "ms");
+        System.out.println(" Le temps de la classification des lexiques à pris :" + classi + "ms");
+        System.out.println(" Temps total : " + (init+classi) + "ms");
 
 
         // temps traitement avant amélioration : 2234ms
