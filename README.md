@@ -14,6 +14,10 @@ Thank's for reading !
 
 - Java 11+
 
+## How to compile ?
+
+`javac src /*.java`
+
 ## How to execute ?
 
 `java -cp src Classification`
