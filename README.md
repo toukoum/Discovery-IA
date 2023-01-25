@@ -9,3 +9,11 @@ We trained our model on 500 different dispatches, and we obtained a correct resp
 There are several ways to improve our results. By using hashmaps for example to save time in execution.
 
 Thank's for reading !
+
+## Requirements
+
+- Java 11+
+
+## How to execute ?
+
+`java -cp src Classification`
