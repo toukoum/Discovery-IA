@@ -242,7 +242,7 @@ public class Classification {
 
         ArrayList<Categorie> cat_all = new ArrayList<>(Arrays.asList(lexique_politique, lexique_economie, lexique_sports, lexique_environement_science, lexique_culture));
 
-        lexique_politique.initLexique("./lexique_politique");// Fonction initLexique appelé pour injecter les lexiques_politique dans politique
+        lexique_politique.initLexique("lexique_politique");// Fonction initLexique appelé pour injecter les lexiques_politique dans politique
         lexique_economie.initLexique("./lexique_economie");// Fonction initLexique appelé pour injecter les lexiques_economie dans economie
         lexique_sports.initLexique("./lexique_sports");// Fonction initLexique appelé pour injecter les lexiques_sports dans sports
         lexique_environement_science.initLexique("lexique_environnement-sciences");// Fonction initLexique appelé pour injecter les lexiques_environement_science dans environement_science
