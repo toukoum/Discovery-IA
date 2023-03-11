@@ -1,12 +1,8 @@
 .N 001
 .D 310308
-.C ENVIRONNEMENT-SCIENCES
-.T Le Sidaction récolte près de six millions d'euros 
-pour la recherche, la 
-prévention et l'accompagnement des malades
-"Avec des Français inquiets de leur pouvoir d'achat, la
-générosité est pour l'instant au rendez-vous", explique
-Bertrand Audouin, directeur général du Sidaction.
+.C ECONOMIE
+.T L'impact économique et financier de la guerre en Ukraine a modifié les perspectives de sortie de la crise covid et soumis
+notre système économique à de nouveau choc d'offre et de demande.
 
 .N 002
 .D 310308
